@@ -1,0 +1,842 @@
+Resources:
+  CMSVPCCBE3DEEB:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 172.16.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/Resource
+  CMSVPCPublicSubnetSubnet1Subnet0369D627:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 172.16.0.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PublicSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet1
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet1/Subnet
+  CMSVPCPublicSubnetSubnet1RouteTable0F180A85:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet1
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet1/RouteTable
+  CMSVPCPublicSubnetSubnet1RouteTableAssociation1AFBD243:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: CMSVPCPublicSubnetSubnet1RouteTable0F180A85
+      SubnetId:
+        Ref: CMSVPCPublicSubnetSubnet1Subnet0369D627
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet1/RouteTableAssociation
+  CMSVPCPublicSubnetSubnet1DefaultRouteD11635C8:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: CMSVPCIGW6E5C786E
+      RouteTableId:
+        Ref: CMSVPCPublicSubnetSubnet1RouteTable0F180A85
+    DependsOn:
+      - CMSVPCVPCGW9298845A
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet1/DefaultRoute
+  CMSVPCPublicSubnetSubnet1EIPB684DF55:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet1
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet1/EIP
+  CMSVPCPublicSubnetSubnet1NATGateway3AE22FCB:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - CMSVPCPublicSubnetSubnet1EIPB684DF55
+          - AllocationId
+      SubnetId:
+        Ref: CMSVPCPublicSubnetSubnet1Subnet0369D627
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet1
+    DependsOn:
+      - CMSVPCPublicSubnetSubnet1DefaultRouteD11635C8
+      - CMSVPCPublicSubnetSubnet1RouteTableAssociation1AFBD243
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet1/NATGateway
+  CMSVPCPublicSubnetSubnet2Subnet60490D78:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock: 172.16.1.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PublicSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet2
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet2/Subnet
+  CMSVPCPublicSubnetSubnet2RouteTable0E0F8873:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet2
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet2/RouteTable
+  CMSVPCPublicSubnetSubnet2RouteTableAssociationE54EC48D:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: CMSVPCPublicSubnetSubnet2RouteTable0E0F8873
+      SubnetId:
+        Ref: CMSVPCPublicSubnetSubnet2Subnet60490D78
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet2/RouteTableAssociation
+  CMSVPCPublicSubnetSubnet2DefaultRoute59449802:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: CMSVPCIGW6E5C786E
+      RouteTableId:
+        Ref: CMSVPCPublicSubnetSubnet2RouteTable0E0F8873
+    DependsOn:
+      - CMSVPCVPCGW9298845A
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet2/DefaultRoute
+  CMSVPCPublicSubnetSubnet2EIP4753B2F5:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet2
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet2/EIP
+  CMSVPCPublicSubnetSubnet2NATGateway0ACA26D0:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - CMSVPCPublicSubnetSubnet2EIP4753B2F5
+          - AllocationId
+      SubnetId:
+        Ref: CMSVPCPublicSubnetSubnet2Subnet60490D78
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PublicSubnetSubnet2
+    DependsOn:
+      - CMSVPCPublicSubnetSubnet2DefaultRoute59449802
+      - CMSVPCPublicSubnetSubnet2RouteTableAssociationE54EC48D
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PublicSubnetSubnet2/NATGateway
+  CMSVPCPrivateSubnetSubnet1SubnetAE56F1FB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 172.16.2.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PrivateSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PrivateSubnetSubnet1
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet1/Subnet
+  CMSVPCPrivateSubnetSubnet1RouteTable50B06ECD:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PrivateSubnetSubnet1
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet1/RouteTable
+  CMSVPCPrivateSubnetSubnet1RouteTableAssociation9D188078:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: CMSVPCPrivateSubnetSubnet1RouteTable50B06ECD
+      SubnetId:
+        Ref: CMSVPCPrivateSubnetSubnet1SubnetAE56F1FB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet1/RouteTableAssociation
+  CMSVPCPrivateSubnetSubnet1DefaultRoute02AAD8AF:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: CMSVPCPublicSubnetSubnet1NATGateway3AE22FCB
+      RouteTableId:
+        Ref: CMSVPCPrivateSubnetSubnet1RouteTable50B06ECD
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet1/DefaultRoute
+  CMSVPCPrivateSubnetSubnet2Subnet162A4EA2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock: 172.16.3.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PrivateSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PrivateSubnetSubnet2
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet2/Subnet
+  CMSVPCPrivateSubnetSubnet2RouteTable62A8D0CC:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/PrivateSubnetSubnet2
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet2/RouteTable
+  CMSVPCPrivateSubnetSubnet2RouteTableAssociationBCF3CA80:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: CMSVPCPrivateSubnetSubnet2RouteTable62A8D0CC
+      SubnetId:
+        Ref: CMSVPCPrivateSubnetSubnet2Subnet162A4EA2
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet2/RouteTableAssociation
+  CMSVPCPrivateSubnetSubnet2DefaultRoute46028FCC:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: CMSVPCPublicSubnetSubnet2NATGateway0ACA26D0
+      RouteTableId:
+        Ref: CMSVPCPrivateSubnetSubnet2RouteTable62A8D0CC
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/PrivateSubnetSubnet2/DefaultRoute
+  CMSVPCIsolatedSubnetSubnet1SubnetC88536AE:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 172.16.4.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: IsolatedSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet1
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet1/Subnet
+  CMSVPCIsolatedSubnetSubnet1RouteTable12C9E368:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet1
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet1/RouteTable
+  CMSVPCIsolatedSubnetSubnet1RouteTableAssociation39F2115E:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: CMSVPCIsolatedSubnetSubnet1RouteTable12C9E368
+      SubnetId:
+        Ref: CMSVPCIsolatedSubnetSubnet1SubnetC88536AE
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet1/RouteTableAssociation
+  CMSVPCIsolatedSubnetSubnet2Subnet0844F345:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock: 172.16.5.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: IsolatedSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet2
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet2/Subnet
+  CMSVPCIsolatedSubnetSubnet2RouteTable0EC8125F:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet2
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet2/RouteTable
+  CMSVPCIsolatedSubnetSubnet2RouteTableAssociation8BAF0CFF:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: CMSVPCIsolatedSubnetSubnet2RouteTable0EC8125F
+      SubnetId:
+        Ref: CMSVPCIsolatedSubnetSubnet2Subnet0844F345
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/IsolatedSubnetSubnet2/RouteTableAssociation
+  CMSVPCIGW6E5C786E:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/CMSVPC
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/IGW
+  CMSVPCVPCGW9298845A:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId:
+        Ref: CMSVPCIGW6E5C786E
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CMSVPC/VPCGW
+  BastionHostSG7EC1B225:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH Access
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow SSH traffic
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/BastionHostSG/Resource
+  DatabaseSG2A23C222:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SQL Access
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 172.16.2.0/24
+          Description: Allow MySQL from CMS AZ1
+          FromPort: 3306
+          IpProtocol: tcp
+          ToPort: 3306
+        - CidrIp: 172.16.5.0/24
+          Description: Allow MySQL from CMS AZ2
+          FromPort: 3306
+          IpProtocol: tcp
+          ToPort: 3306
+        - CidrIp: 172.16.1.0/24
+          Description: Allow SSH from Bastion
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/DatabaseSG/Resource
+  LoadBalancerSG4572B15E:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP/HTTPS to ALB
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow HTTP from anywhere
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIpv6: ::/0
+          Description: Allow HTTP from IPv6
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/LoadBalancerSG/Resource
+  CmsSecurityGroupsWebCMS66CCFE13:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP Access
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 172.16.1.0/24
+          Description: Permit Web Requests from AZ1
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 172.16.4.0/24
+          Description: Permit Web Requests from AZ2
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 172.16.1.0/24
+          Description: Permit SSH from Bastion
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CmsSecurityGroups/WebCMS/Resource
+  BastionHostInstanceInstanceProfileB1DB546D:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - LabRole
+    Metadata:
+      aws:cdk:path: CdkTallerStack/BastionHost/Instance/InstanceProfile
+  BastionHostInstance82B9AD9B:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 8
+            VolumeType: gp2
+      IamInstanceProfile:
+        Ref: BastionHostInstanceInstanceProfileB1DB546D
+      ImageId:
+        Ref: SsmParameterValueawsservicecanonicalubuntuserver2204stablecurrentamd64hvmebsgp2amiidC96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: si3006
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - BastionHostSG7EC1B225
+            - GroupId
+      SubnetId:
+        Ref: CMSVPCPublicSubnetSubnet1Subnet0369D627
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/BastionHost/Instance
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    Metadata:
+      aws:cdk:path: CdkTallerStack/BastionHost/Instance/Resource
+  DatabaseInstanceInstanceProfile766F9C57:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - LabRole
+    Metadata:
+      aws:cdk:path: CdkTallerStack/DatabaseInstance/Instance/InstanceProfile
+  DatabaseInstance4F16F094:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 8
+            VolumeType: gp2
+      IamInstanceProfile:
+        Ref: DatabaseInstanceInstanceProfile766F9C57
+      ImageId:
+        Ref: SsmParameterValueawsservicecanonicalubuntuserver2204stablecurrentamd64hvmebsgp2amiidC96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: si3006
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - DatabaseSG2A23C222
+            - GroupId
+      SubnetId:
+        Ref: CMSVPCIsolatedSubnetSubnet1SubnetC88536AE
+      Tags:
+        - Key: Name
+          Value: CdkTallerStack/DatabaseInstance/Instance
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    Metadata:
+      aws:cdk:path: CdkTallerStack/DatabaseInstance/Instance/Resource
+  PrivateDnsDBPrivateZoneA4D24E68:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: db.internal.
+      VPCs:
+        - VPCId:
+            Ref: CMSVPCCBE3DEEB
+          VPCRegion:
+            Ref: AWS::Region
+    Metadata:
+      aws:cdk:path: CdkTallerStack/PrivateDns/DBPrivateZone/Resource
+  PrivateDnsDBRecord9C99FD21:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId:
+        Ref: PrivateDnsDBPrivateZoneA4D24E68
+      Name: db.db.internal.
+      ResourceRecords:
+        - Fn::GetAtt:
+            - DatabaseInstance4F16F094
+            - PrivateIp
+      TTL: "1800"
+      Type: A
+    Metadata:
+      aws:cdk:path: CdkTallerStack/PrivateDns/DBRecord/Resource
+  CmsAutoScalingCmsSecurityGroupsWebCMSBB20E715:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP Access
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 172.16.1.0/24
+          Description: Permit Web Requests from AZ1
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 172.16.4.0/24
+          Description: Permit Web Requests from AZ2
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 172.16.1.0/24
+          Description: Permit SSH from Bastion
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CmsAutoScaling/CmsSecurityGroups/WebCMS/Resource
+  CmsAutoScalingCmsSecurityGroupsWebCMSfromCdkTallerStackLoadBalancerSG74204D688094E75466:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Load balancer to target
+      FromPort: 80
+      GroupId:
+        Fn::GetAtt:
+          - CmsAutoScalingCmsSecurityGroupsWebCMSBB20E715
+          - GroupId
+      IpProtocol: tcp
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - LoadBalancerSG4572B15E
+          - GroupId
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CmsAutoScaling/CmsSecurityGroups/WebCMS/from CdkTallerStackLoadBalancerSG74204D68:80
+  CmsAutoScalingCmsASGInstanceProfileA6C37FA8:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - LabRole
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CmsAutoScaling/CmsASG/InstanceProfile
+  CmsAutoScalingCmsASGLaunchTemplate00ABBA5E:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        IamInstanceProfile:
+          Arn:
+            Fn::GetAtt:
+              - CmsAutoScalingCmsASGInstanceProfileA6C37FA8
+              - Arn
+        ImageId:
+          Ref: SsmParameterValueawsservicecanonicalubuntuserver2204stablecurrentamd64hvmebsgp2amiidC96584B6F00A464EAD1953AFF4B05118Parameter
+        InstanceType: t2.micro
+        Monitoring:
+          Enabled: false
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - CmsAutoScalingCmsSecurityGroupsWebCMSBB20E715
+              - GroupId
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: CdkTallerStack/CmsAutoScaling/CmsASG/LaunchTemplate
+          - ResourceType: volume
+            Tags:
+              - Key: Name
+                Value: CdkTallerStack/CmsAutoScaling/CmsASG/LaunchTemplate
+        UserData:
+          Fn::Base64: "#!/bin/bash"
+      TagSpecifications:
+        - ResourceType: launch-template
+          Tags:
+            - Key: Name
+              Value: CdkTallerStack/CmsAutoScaling/CmsASG/LaunchTemplate
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CmsAutoScaling/CmsASG/LaunchTemplate/Resource
+  CmsAutoScalingCmsASGE28CEF48:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      HealthCheckGracePeriod: 180
+      HealthCheckType: ELB
+      LaunchTemplate:
+        LaunchTemplateId:
+          Ref: CmsAutoScalingCmsASGLaunchTemplate00ABBA5E
+        Version:
+          Fn::GetAtt:
+            - CmsAutoScalingCmsASGLaunchTemplate00ABBA5E
+            - LatestVersionNumber
+      MaxSize: "4"
+      MinSize: "2"
+      Tags:
+        - Key: Name
+          PropagateAtLaunch: true
+          Value: CdkTallerStack/CmsAutoScaling/CmsASG
+      TargetGroupARNs:
+        - Ref: WebCMSALBHttpListenerCmsTargetsGroupC659B55C
+      VPCZoneIdentifier:
+        - Ref: CMSVPCPrivateSubnetSubnet1SubnetAE56F1FB
+        - Ref: CMSVPCPrivateSubnetSubnet2Subnet162A4EA2
+    UpdatePolicy:
+      AutoScalingScheduledAction:
+        IgnoreUnmodifiedGroupSizeProperties: true
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CmsAutoScaling/CmsASG/ASG
+  WebCMSALBD870B2CC:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      LoadBalancerAttributes:
+        - Key: deletion_protection.enabled
+          Value: "false"
+      Name: lb-WebCMS
+      Scheme: internet-facing
+      SecurityGroups:
+        - Fn::GetAtt:
+            - LoadBalancerSG4572B15E
+            - GroupId
+      Subnets:
+        - Ref: CMSVPCPublicSubnetSubnet1Subnet0369D627
+        - Ref: CMSVPCPublicSubnetSubnet2Subnet60490D78
+      Type: application
+    DependsOn:
+      - CMSVPCPublicSubnetSubnet1DefaultRouteD11635C8
+      - CMSVPCPublicSubnetSubnet1RouteTableAssociation1AFBD243
+      - CMSVPCPublicSubnetSubnet2DefaultRoute59449802
+      - CMSVPCPublicSubnetSubnet2RouteTableAssociationE54EC48D
+    Metadata:
+      aws:cdk:path: CdkTallerStack/WebCMSALB/Resource
+  WebCMSALBHttpListener02F7F74E:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - TargetGroupArn:
+            Ref: WebCMSALBHttpListenerCmsTargetsGroupC659B55C
+          Type: forward
+      LoadBalancerArn:
+        Ref: WebCMSALBD870B2CC
+      Port: 80
+      Protocol: HTTP
+    Metadata:
+      aws:cdk:path: CdkTallerStack/WebCMSALB/HttpListener/Resource
+  WebCMSALBHttpListenerCmsTargetsGroupC659B55C:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 60
+      HealthCheckPath: /
+      HealthyThresholdCount: 2
+      Port: 80
+      Protocol: HTTP
+      TargetGroupAttributes:
+        - Key: stickiness.enabled
+          Value: "false"
+      TargetType: instance
+      UnhealthyThresholdCount: 3
+      VpcId:
+        Ref: CMSVPCCBE3DEEB
+    Metadata:
+      aws:cdk:path: CdkTallerStack/WebCMSALB/HttpListener/CmsTargetsGroup/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/+1YQW/bOgz+LdNxUL3XFq+H3LJ02Axsa5AEO8woBkZiEr0qkidR6TIj/32QLSdOlnUF3oBmQE+WKfHjJ4oWSV9kF+fn2T8v4N6fCXl3ptU0q8YE4o7Dvf9SobjIqk+lKCqmyr6UDr1Hz3rsJeNsCd/639sXA/QWCO9h3UocenJK0DXOIGgaowhO0fqts6FkvRloj5z5MDVIA2tmah4ckLKG9YqKGVhiwmmWTNZlFAzDVCvBOBNKug/g77ZcymYqL2/MewhGLFiPXMANfwDMqRUQHqI9pJJ7q4FQ/qRzu7nlg5n5NBzwhsi4VisqBitQGqZKK1p/tqaFXZUil2kcoV5rK367G85UuboaHCwH79Xc5OXqKh3RjRk4TM5MGzoJFjURKT9uY4X1CvaS3Z4MwdNg8Us31SHWBFYcjWwgnMBU406+k/W9t0LVwNvFcfAmH8bHDp2n7+CPR2z6xp/6LP4fjdNhciI0TofJM42To1HfULkhdAa390uTF9NbnwjEYomG+F5JUFSRabIj0Qunyv3tSZmbeTQ6ChrrKkGAyY1WBhtJc+kKawyKqNpWIsGorwGTE+oIrsUp8TyN1b8N99lLD+HWn0yL/KYLHGfTogh54EvQ2t73tb4JNLXByNbus48fE4nP3vsDuJ0ATVHcVJndu5nnxhMYgbEPTMPUEDVZRCyUwXwJ807SSaM7XA9BubYptHrbV+03hK1aU4V61qtS5+Xb6jfSf0LrKbU19n9yUXIqb5LoBJdl7BOL6hi9I5uQSKA0yg/WKLJOmfmuRT7CNHh010CwS8t1qY9tMk/Zud1raemm7MbINOb0a1wpse3mW1JDZ2dq66au/xoP7G9wwxUss45jkjp3sd349zKrUnPxznpCGcuSomLfrcGPuw67Pa54wL+easzvcHh/hMI6mfC2fx2irINA4OZIe/iPWVobawyMkTYcAlkvQCszz6p+IDtuXtraZYGgaTFYYKe2+jaAEoSidStR5kByLOIOfk5suuH8uPD/TZjvBU99J9Ql2cT2y1IrUVdzk9oVSavTfB7ufMNRgycltAU5BQ1GKDNfXWRVB+y9Bfm6nkNXtJdRHUudCd5VUJ7Q7BbzPaU0yY/TjUs6r5sNH6G3wQksDpGG4GCJhG7Dh2taWPPqMju/zK5e/OeVOnPBkFpiNmqePwB+nRC2KxMAAA==
+    Metadata:
+      aws:cdk:path: CdkTallerStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Parameters:
+  SsmParameterValueawsservicecanonicalubuntuserver2204stablecurrentamd64hvmebsgp2amiidC96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-3
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-4
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - il-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+      - Fn::Equals:
+          - Ref: AWS::Region
+          - us-west-2
+
