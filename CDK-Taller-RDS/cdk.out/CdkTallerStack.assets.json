@@ -1,0 +1,20 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "e5078cfb4b48a0db9efebc37da04ad33af842092d2bee41b92b2cabfb98449ca": {
+      "displayName": "CdkTallerStack Template",
+      "source": {
+        "path": "CdkTallerStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-25503593": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "e5078cfb4b48a0db9efebc37da04ad33af842092d2bee41b92b2cabfb98449ca.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
